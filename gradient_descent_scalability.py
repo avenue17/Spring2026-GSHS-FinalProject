@@ -101,8 +101,17 @@ def gradient_descent(X, y, lr=0.1, tolerance=1e-6, max_epochs=5000):
     w = np.zeros(d)
     prev_loss = float('inf')
 
-    # Implement your code here
+    for epoch in range(1, max_epochs + 1):
+        grad = df(w, X, y)
+        w = w - lr * grad
 
+        loss = f(w, X, y)
+        if abs(prev_loss - loss) < tolerance:
+            return epoch, loss
+
+        prev_loss = loss
+
+    loss = f(w, X, y)
     return max_epochs, loss
 
 def plot_graphs(x_vals, y_vals, x_label, y_label, title):
@@ -151,10 +160,17 @@ def experiment_2():
     dimensions = [1, 5, 10, 20, 50, 100]
     times = []
 
-    # Implement your code here
+    n_fixed = 5000
+    for d in dimensions:
+        X, y = generate_data(n_fixed, d=d)
+
+        t0 = time.perf_counter()
+        _iters, _loss = gradient_descent(X, y)
+        t1 = time.perf_counter()
+
+        times.append(t1 - t0)
 
     plot_graphs(dimensions, times, "Number of Features", "Time to Converge (seconds)", "Time to Converge vs Number of Features")
 
 if __name__ == "__main__":
-    experiment_1()
-    experiment_2()
+    e
